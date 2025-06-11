@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel 2 Cm</title>
+  <link rel="icon" href="../assets/icone v2 sem nome.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="../assets/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <header>
+    <img id="header-icon" alt="Ícone Pixel 2 CM"/>
+    <h1>REDIMENSIONE SUAS IMAGENS COM PRECISÃO PARA IMPRESSÃO PERFEITA!</h1>
+  </header>
+
+  <div class="content-wrapper">
+    <div class="upload-section">
+      <div id="preview-container">
+        <div id="preview-image-container">
+          <img id="image-resized" alt="Imagem Redimensionada">
+        </div>
+      </div>
+      
+      <label id="file-upload-label" for="file-upload">
+        SELECIONE<br>OU ARRASTE<br>O ARQUIVO
+        <img src="" alt="Upload">
+        <input type="file" id="file-upload" accept="image/*">
+      </label>
+    </div>
+
+    <div class="form-section">
+      <div class="form-area">
+        <div class="form-group">
+          <label for="width">Largura</label>
+          <input type="number" id="width" placeholder="Digite a largura">
+        </div>
+        
+        <div class="form-group">
+          <label for="height">Altura</label>
+          <input type="number" id="height" placeholder="Digite a altura">
+        </div>
+        
+        <div class="form-group">
+          <label for="dpi">DPI</label>
+          <input type="number" id="dpi" value="300" placeholder="DPI" min="72" max="1200">
+        </div>
+        
+        <div class="form-group">
+          <label for="unit-select">Unidade</label>
+          <select id="unit-select">
+            <option value="cm">cm</option>
+            <option value="mm">mm</option>
+            <option value="in">inches</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="paper-size">Tamanho do Papel</label>
+          <select id="paper-size">
+            <option value="A5">Folha A5 (14.8 × 21 cm)</option>
+            <option value="A4" selected>Folha A4 (21 × 29.7 cm)</option>
+            <option value="A3">Folha A3 (29.7 × 42 cm)</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="img-per-page">Quantidade por página</label>
+          <input type="number" id="img-per-page" min="1" value="1" placeholder="Quantidade">
+        </div>
+        
+        <div class="form-group form-full">
+          <label for="file-type">Formato de Saída</label>
+          <select id="file-type">
+            <option value="png">PNG</option>
+            <option value="jpeg">JPG</option>
+            <option value="pdf">PDF</option>
+          </select>
+        </div>
+
+        <div class="form-group form-full">
+          <label>Cor da linha de contorno</label>
+          <select id="border-color">
+            <option value="#000000">Preto</option>
+            <option value="#ffffff">Branco</option>
+            <option value="#ff3c00">Vermelho</option>
+            <option value="#a39b4b">Dourado</option>
+          </select>
+        </div>
+
+        <div class="form-group form-full">
+          <div class="checkbox-group">
+            <input type="checkbox" id="add-page-border">
+            <label for="add-page-border">Adicionar borda na página</label>
+          </div>
+        </div>
+
+        <div class="form-group form-full">
+          <div class="checkbox-group">
+            <input type="checkbox" id="keep-aspect-ratio" checked>
+            <label for="keep-aspect-ratio">Ajustar automaticamente a proporção</label>
+          </div>
+        </div>
+
+        <span id="error-message">Tipo de arquivo inválido. Apenas PNG e JPG são aceitos.</span>
+      </div>
+    </div>
+  </div>
+
+  <button id="download-button" disabled>DOWNLOAD</button>
+
+  <script src="script.js"></script>
+  <script>
+    // Carrega imagens dinamicamente
+    document.getElementById('header-icon').src = 
+      window.electronAPI.getAssetPath('icone v2 nome.png');
+    
+    document.getElementById('file-upload-label').querySelector('img').src = 
+      window.electronAPI.getAssetPath('upload.png');
+  </script>
+</body>
+</html>
