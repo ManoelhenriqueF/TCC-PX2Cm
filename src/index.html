@@ -7,12 +7,18 @@
   <link rel="icon" href="../assets/icone v2 sem nome.png">
   <link rel="stylesheet" href="styles.css">
   <script src="../assets/jspdf.umd.min.js"></script>
+  
 </head>
 <body>
   <header>
     <img id="header-icon" alt="Ícone Pixel 2 CM"/>
-    <h1>REDIMENSIONE SUAS IMAGENS COM PRECISÃO PARA IMPRESSÃO PERFEITA!</h1>
+    <h1 data-i18n="title">REDIMENSIONE SUAS IMAGENS COM PRECISÃO PARA IMPRESSÃO PERFEITA!</h1>
+    <select id="language-selector">
+      <option value="pt">Português</option>
+      <option value="en">English</option>
+    </select>
   </header>
+
 
   <div class="content-wrapper">
     <div class="upload-section">
@@ -22,7 +28,7 @@
         </div>
       </div>
       
-      <label id="file-upload-label" for="file-upload">
+      <label id="file-upload-label" for="file-upload" data-i18n="uploadLabel">
         SELECIONE<br>OU ARRASTE<br>O ARQUIVO
         <img src="" alt="Upload">
         <input type="file" id="file-upload" accept="image/*">
@@ -32,22 +38,22 @@
     <div class="form-section">
       <div class="form-area">
         <div class="form-group">
-          <label for="width">Largura</label>
+          <label for="width" data-i18n="width">Largura</label>
           <input type="number" id="width" placeholder="Digite a largura">
         </div>
         
         <div class="form-group">
-          <label for="height">Altura</label>
+          <label for="height" data-i18n="height">Altura</label>
           <input type="number" id="height" placeholder="Digite a altura">
         </div>
         
         <div class="form-group">
-          <label for="dpi">DPI</label>
+          <label for="dpi" data-i18n="dpi">DPI</label>
           <input type="number" id="dpi" value="300" placeholder="DPI" min="72" max="1200">
         </div>
         
         <div class="form-group">
-          <label for="unit-select">Unidade</label>
+          <label for="unit-select" data-i18n="unit">Unidade</label>
           <select id="unit-select">
             <option value="cm">cm</option>
             <option value="mm">mm</option>
@@ -56,7 +62,7 @@
         </div>
         
         <div class="form-group">
-          <label for="paper-size">Tamanho do Papel</label>
+          <label for="paper-size" data-i18n="paperSize">Tamanho do Papel</label>
           <select id="paper-size">
             <option value="A5">Folha A5 (14.8 × 21 cm)</option>
             <option value="A4" selected>Folha A4 (21 × 29.7 cm)</option>
@@ -65,12 +71,12 @@
         </div>
         
         <div class="form-group">
-          <label for="img-per-page">Quantidade por página</label>
+          <label for="img-per-page" data-i18n="quantityPerPage">Quantidade por página</label>
           <input type="number" id="img-per-page" min="1" value="1" placeholder="Quantidade">
         </div>
         
         <div class="form-group form-full">
-          <label for="file-type">Formato de Saída</label>
+          <label for="file-type" data-i18n="outputFormat">Formato de Saída</label>
           <select id="file-type">
             <option value="png">PNG</option>
             <option value="jpeg">JPG</option>
@@ -79,39 +85,36 @@
         </div>
 
         <div class="form-group form-full">
-          <label>Cor da linha de contorno</label>
+          <label data-i18n="borderColor">Cor da linha de contorno</label>
           <select id="border-color">
-            <option value="#000000">Preto</option>
-            <option value="#ffffff">Branco</option>
-            <option value="#ff3c00">Vermelho</option>
-            <option value="#a39b4b">Dourado</option>
+            <option value="#000000" data-i18n="black">Preto</option>
+            <option value="#ffffff" data-i18n="white">Branco</option>
           </select>
         </div>
 
         <div class="form-group form-full">
           <div class="checkbox-group">
             <input type="checkbox" id="add-page-border">
-            <label for="add-page-border">Adicionar borda na página</label>
+            <label for="add-page-border" data-i18n="addPageBorder">Adicionar borda na página</label>
           </div>
         </div>
 
         <div class="form-group form-full">
           <div class="checkbox-group">
             <input type="checkbox" id="keep-aspect-ratio" checked>
-            <label for="keep-aspect-ratio">Ajustar automaticamente a proporção</label>
+            <label for="keep-aspect-ratio" data-i18n="keepAspectRatio">Ajustar automaticamente a proporção</label>
           </div>
         </div>
 
-        <span id="error-message">Tipo de arquivo inválido. Apenas PNG e JPG são aceitos.</span>
+        <span id="error-message" data-i18n="invalidFile">Tipo de arquivo inválido. Apenas PNG e JPG são aceitos.</span>
       </div>
     </div>
   </div>
 
-  <button id="download-button" disabled>DOWNLOAD</button>
+  <button id="download-button" disabled data-i18n="download">DOWNLOAD</button>
 
   <script src="script.js"></script>
   <script>
-    // Carrega imagens dinamicamente
     document.getElementById('header-icon').src = 
       window.electronAPI.getAssetPath('icone v2 nome.png');
     

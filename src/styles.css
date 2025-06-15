@@ -4,7 +4,7 @@
 }
 
 body {
-  font-family: 'Impact', sans-serif;
+  font-family: 'Trebuchet MS', sans-serif;
   margin: 0;
   background-color: #1e1e1e;
   color: #fff;
@@ -36,6 +36,22 @@ header h1 {
   flex-grow: 1;
 }
 
+#language-selector {
+  background-color: #a39b4b;
+  border: none;
+  padding: 8px;
+  font-size: 14px;
+  color: #000;
+  border-radius: 4px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+#language-selector:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #e0d96b;
+}
+
 .content-wrapper {
   display: flex;
   flex-grow: 1;
@@ -58,6 +74,17 @@ header h1 {
 .form-section {
   flex-grow: 1;
   min-width: 300px;
+}
+
+#file-upload {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
 #file-upload-label {
@@ -230,6 +257,12 @@ header h1 {
 
   header h1 {
     font-size: 16px;
+  }
+
+  #language-selector {
+    margin-left: 10px;
+    padding: 6px;
+    font-size: 12px;
   }
 
   #download-button {

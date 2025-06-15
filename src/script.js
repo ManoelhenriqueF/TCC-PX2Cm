@@ -1,6 +1,5 @@
 let jspdf;
 
-// Elements
 const fileInput = document.getElementById('file-upload');
 const dropArea = document.getElementById('file-upload-label');
 const downloadBtn = document.getElementById('download-button');
@@ -12,19 +11,94 @@ const widthInput = document.getElementById('width');
 const heightInput = document.getElementById('height');
 const uploadContainer = document.querySelector('.upload-section');
 
-// State
 let originalImage = null;
 let originalAspectRatio = 1;
+
+const translations = {
+  pt: {
+    title: "REDIMENSIONE SUAS IMAGENS COM PRECISÃO PARA IMPRESSÃO PERFEITA!",
+    uploadLabel: "SELECIONE<br>OU ARRASTE<br>O ARQUIVO",
+    width: "Largura",
+    height: "Altura",
+    dpi: "DPI",
+    unit: "Unidade",
+    paperSize: "Tamanho do Papel",
+    quantityPerPage: "Quantidade por página",
+    outputFormat: "Formato de Saída",
+    borderColor: "Cor da linha de contorno",
+    black: "Preto",
+    white: "Branco",
+    addPageBorder: "Adicionar borda na página",
+    keepAspectRatio: "Ajustar automaticamente a proporção",
+    invalidFile: "Tipo de arquivo inválido. Apenas PNG e JPG são aceitos.",
+    download: "DOWNLOAD"
+  },
+  en: {
+    title: "RESIZE YOUR IMAGES WITH PRECISION FOR PERFECT PRINTING!",
+    uploadLabel: "SELECT<br>OR DRAG<br>THE FILE",
+    width: "Width",
+    height: "Height",
+    dpi: "DPI",
+    unit: "Unit",
+    paperSize: "Paper Size",
+    quantityPerPage: "Quantity per page",
+    outputFormat: "Output Format",
+    borderColor: "Border color",
+    black: "Black",
+    white: "White",
+    addPageBorder: "Add page border",
+    keepAspectRatio: "Maintain aspect ratio automatically",
+    invalidFile: "Invalid file type. Only PNG and JPG are accepted.",
+    download: "DOWNLOAD"
+  }
+};
+
+const paperOptions = {
+  pt: {
+    A5: "Folha A5 (14.8 × 21 cm)",
+    A4: "Folha A4 (21 × 29.7 cm)",
+    A3: "Folha A3 (29.7 × 42 cm)"
+  },
+  en: {
+    A5: "A5 Sheet (14.8 × 21 cm)",
+    A4: "A4 Sheet (21 × 29.7 cm)",
+    A3: "A3 Sheet (29.7 × 42 cm)"
+  }
+};
+
+function updateLanguage(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(element => {
+    const key = element.getAttribute('data-i18n');
+    if (translations[lang][key]) {
+      if (element.tagName === 'INPUT' && element.type === 'placeholder') {
+        element.placeholder = translations[lang][key];
+      } else if (element.tagName === 'OPTION') {
+        element.textContent = translations[lang][key];
+      } else {
+        element.innerHTML = translations[lang][key];
+      }
+    }
+  });
+
+  const paperSelect = document.getElementById('paper-size');
+  Array.from(paperSelect.options).forEach(option => {
+    option.textContent = paperOptions[lang][option.value];
+  });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   jspdf = window.jspdf;
   
-  // Set up event listeners
+  updateLanguage('pt');
+  
+  document.getElementById('language-selector').addEventListener('change', (e) => {
+    updateLanguage(e.target.value);
+  });
+
   fileInput.addEventListener('change', validateFile);
   downloadBtn.addEventListener('click', downloadImage);
   document.getElementById('unit-select').addEventListener('change', convertUnits);
 
-  // Atualizar pré-visualização quando valores mudam
   document.getElementById('dpi').addEventListener('input', function() {
     const dpi = parseInt(this.value);
     if (dpi < 72) this.value = 72;
@@ -52,9 +126,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     updateResizedPreview();
   });
+
+ 
+  document.getElementById('file-upload-label').addEventListener('click', function(e) {
+    if (e.target.tagName !== 'INPUT') {
+      fileInput.click();
+    }
+  });
 });
 
-// Drag and drop handlers
 dropArea.addEventListener('dragover', (e) => {
   e.preventDefault();
   dropArea.classList.add('dragover');
@@ -113,7 +193,6 @@ function updateResizedPreview() {
   let width = parseFloat(widthInput.value) || 0;
   let height = parseFloat(heightInput.value) || 0;
 
-  // Converter unidades para cm
   if (unit === 'mm') {
     width /= 10;
     height /= 10;
@@ -122,22 +201,17 @@ function updateResizedPreview() {
     height *= 2.54;
   }
 
-  // Converter cm para px
   const widthPx = width / 2.54 * dpi;
   const heightPx = height / 2.54 * dpi;
 
-  // Criar canvas para a imagem redimensionada
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   
-  // Usar os valores exatos dos campos para mostrar deformação
   canvas.width = widthPx;
   canvas.height = heightPx;
   
-  // Desenhar imagem redimensionada (mostrará deformação se houver)
   ctx.drawImage(originalImage, 0, 0, widthPx, heightPx);
   
-  // Atualizar a imagem redimensionada
   imageResized.src = canvas.toDataURL();
 }
 
@@ -159,13 +233,11 @@ function convertUnits() {
     const widthCm = img.width / dpi * 2.54;
     const heightCm = img.height / dpi * 2.54;
     
-    // Salvar a proporção original
     originalAspectRatio = img.width / img.height;
     
     widthInput.value = cmTo(unit, widthCm).toFixed(2);
     heightInput.value = cmTo(unit, heightCm).toFixed(2);
     
-    // Atualizar pré-visualização
     if (previewContainer.style.display === 'block') {
       updateResizedPreview();
     }
@@ -240,7 +312,6 @@ function downloadImage() {
     return;
   }
 
-  // Converter unidades para cm
   if (unit === 'mm') {
     width /= 10;
     height /= 10;
@@ -249,7 +320,6 @@ function downloadImage() {
     height *= 2.54;
   }
 
-  // Converter cm para px
   const widthPx = width / 2.54 * dpi;
   const heightPx = height / 2.54 * dpi;
 
@@ -258,7 +328,6 @@ function downloadImage() {
   const img = new Image();
   img.src = originalImage.src;
   img.onload = function() {
-    // Ajustar proporção se necessário
     let finalWidthPx = widthPx;
     let finalHeightPx = heightPx;
     
@@ -274,12 +343,10 @@ function downloadImage() {
       }
     }
 
-    // Margem da página (2mm)
     const pagePadding = 2 / 25.4 * dpi;
     const usableWidth = paperW - 2 * pagePadding;
     const usableHeight = paperH - 2 * pagePadding;
 
-    // Calcular quantas imagens cabem
     const cols = Math.max(1, Math.floor(usableWidth / finalWidthPx));
     const rows = Math.max(1, Math.floor(usableHeight / finalHeightPx));
     const maxImages = cols * rows;
@@ -289,13 +356,11 @@ function downloadImage() {
       return;
     }
 
-    // Criar canvas
     const canvas = document.createElement('canvas');
     canvas.width = paperW;
     canvas.height = paperH;
     const ctx = canvas.getContext('2d');
 
-    // Fundo da página
     ctx.fillStyle = addPageBorder ? borderColor : "#fff";
     ctx.fillRect(0, 0, paperW, paperH);
 
@@ -304,7 +369,6 @@ function downloadImage() {
       ctx.fillRect(pagePadding, pagePadding, usableWidth, usableHeight);
     }
 
-    // Desenhar imagens
     let count = 0;
     outerLoop:
     for (let r = 0; r < rows; r++) {
@@ -325,7 +389,6 @@ function downloadImage() {
       }
     }
 
-    // Gerar arquivo final
     if (fileType === "pdf") {
       const pdf = new jspdf.jsPDF({
         unit: 'pt',
